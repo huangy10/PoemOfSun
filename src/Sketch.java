@@ -1,31 +1,29 @@
-import processing.core.PApplet;
+import processing.core.*;
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
+import blobDetection.*;
 
 public class Sketch extends PApplet {
 
-    public Kinect kinect;
+    BodyDetector bodyDetector;
 
     @Override
     public void settings() {
-        size(800, 800);
+        size(640, 480);
     }
 
     @Override
     public void setup() {
-        kinect = new Kinect(this);
-        initKinect();
+        bodyDetector = new BodyDetector(this);
+        frameRate(30);
     }
 
     @Override
     public void draw() {
         background(255);
-        image(kinect.getDepthImage(), 0, 0);
-        surface.setTitle("Framerate: " + frameRate);
-    }
+        bodyDetector.update();
 
-    private void initKinect() {
-        kinect.initDepth();
-        kinect.enableMirror(true);
+        bodyDetector.render();
+        surface.setTitle("Framerate: " + frameRate);
     }
 }

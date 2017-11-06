@@ -32,3 +32,4 @@ application.windows64
 application.macosx
 
 .idea/
+out/

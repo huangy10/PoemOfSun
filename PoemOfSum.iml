@@ -12,5 +12,6 @@
     <orderEntry type="library" name="gluegen-rt" level="application" />
     <orderEntry type="library" name="jogl-all" level="application" />
     <orderEntry type="library" name="jna" level="application" />
+    <orderEntry type="library" name="blobDetection" level="project" />
   </component>
 </module>

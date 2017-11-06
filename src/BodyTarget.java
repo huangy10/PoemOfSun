@@ -29,6 +29,14 @@ public class BodyTarget {
         return true;
     }
 
+    void updateLocationForced(float x, float y) {
+        loc.x = x;
+        loc.y = y;
+
+        lastUpdateFrame = sk.frameCount;
+        catchCount += 1;
+    }
+
     PVector getCurrentScreenLocation() {
         return Calibrator.kinectToScreen(loc);
     }

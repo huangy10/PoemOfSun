@@ -71,7 +71,7 @@ public class BodyDetector {
         } else {
             t = targets.get(0);
         }
-        t.updateLocation(sk.mouseX, sk.mouseY);
+        t.updateLocationForced(sk.mouseX, sk.mouseY);
     }
 
     void render() {

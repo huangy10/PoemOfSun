@@ -15,6 +15,8 @@ public class Sketch extends PApplet {
     @Override
     public void setup() {
         bodyDetector = new BodyDetector(this);
+        bodyDetector.disableRendering();
+        bodyDetector.setEnableDebug();
         frameRate(30);
     }
 

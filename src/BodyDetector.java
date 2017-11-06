@@ -18,6 +18,9 @@ public class BodyDetector {
     boolean showDepthImage = true;
     boolean showBlob = true;
 
+    // debug options
+    private boolean enableDebug = false;
+
     BodyDetector(PApplet sk) {
         this.sk = sk;
         initKinect();
@@ -46,6 +49,10 @@ public class BodyDetector {
     }
 
     void update() {
+        if (enableDebug) {
+            debugUpdate();
+            return;
+        }
         int[] rawDepthData = kinect.getRawDepth();
         for (int i = 0; i < rawDepthData.length; i += 1) {
             depthImage.pixels[i] = sk.lerpColor(sk.color(255), sk.color(0),
@@ -54,6 +61,17 @@ public class BodyDetector {
         depthImage.updatePixels();
         blobDetection.computeBlobs(depthImage.pixels);
         processBlobs();
+    }
+
+    private void debugUpdate() {
+        BodyTarget t;
+        if (targets.isEmpty()) {
+            t = new BodyTarget(new PVector(sk.mouseX, sk.mouseY), sk);
+            targets.add(t);
+        } else {
+            t = targets.get(0);
+        }
+        t.updateLocation(sk.mouseX, sk.mouseY);
     }
 
     void render() {
@@ -107,5 +125,15 @@ public class BodyDetector {
 
     ArrayList<BodyTarget> getTargets() {
         return targets;
+    }
+
+    void disableRendering() {
+        showBlob = false;
+        showDepthImage = false;
+    }
+
+    void setEnableDebug() {
+        enableDebug = true;
+        PApplet.println("Body detector enable debug mode");
     }
 }

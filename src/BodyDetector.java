@@ -68,6 +68,7 @@ public class BodyDetector {
         if (targets.isEmpty()) {
             t = new BodyTarget(new PVector(sk.mouseX, sk.mouseY), sk);
             targets.add(t);
+//            targets.add(new BodyTarget(new PVector(200, 200), sk));
         } else {
             t = targets.get(0);
         }

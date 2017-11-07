@@ -57,7 +57,7 @@ public class Ground {
         for (int i = 0; i < cellNbW; i += 1)
             for (int j = 0; j < cellNbH; j += 1) {
                 nodes[i][j].renderNode();
-                sk.stroke(nodes[i][j].tmp.mag() * 2 - nodes[i][j].f.mag() * 5);
+                sk.stroke(nodes[i][j].tmp.mag() * 2, nodes[i][j].f.mag() * 5, sk.noise(0, sk.t * 10) * 255);
                 if (i > 0)
                     sk.line(nodes[i][j].loc.x, nodes[i][j].loc.y, nodes[i - 1][j].loc.x, nodes[i - 1][j].loc.y);
                 if (j > 0)

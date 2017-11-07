@@ -7,10 +7,11 @@ public class Sketch extends PApplet {
 
     BodyDetector bodyDetector;
     VisualDisplayer visualDisplayer;
+    float t = 0;
 
     @Override
     public void settings() {
-        size(640, 480);
+        size(1280, 960);
     }
 
     @Override
@@ -26,7 +27,6 @@ public class Sketch extends PApplet {
 
     @Override
     public void draw() {
-        background(255);
         bodyDetector.update();
         //
         visualDisplayer.update();
@@ -34,5 +34,7 @@ public class Sketch extends PApplet {
         bodyDetector.render();
         visualDisplayer.render();
         surface.setTitle("Framerate: " + frameRate);
+
+        t += 0.01f;
     }
 }

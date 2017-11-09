@@ -8,6 +8,8 @@ public class BodyTarget {
     private PVector loc;
     private PApplet sk;
 
+    float dir = -4;
+
     private long    birthFrame = 0;
     private long    lastUpdateFrame = 0;
     private int     catchCount = 0;

@@ -37,4 +37,14 @@ public class Sketch extends PApplet {
 
         t += 0.01f;
     }
+
+    @Override
+    public void mousePressed() {
+//        BodyTarget t = bodyDetector.getTargets().get(0);
+//        if (t.dir == 1) {
+//            t.dir = -4;
+//        } else {
+//            t.dir = 1;
+//        }
+    }
 }

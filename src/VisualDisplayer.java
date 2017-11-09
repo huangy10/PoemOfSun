@@ -8,7 +8,7 @@ public class VisualDisplayer {
 
     VisualDisplayer(Sketch sk) {
         this.sk = sk;
-        ground = new Ground(sk, 20);
+        ground = new Ground(sk, 40);
     }
 
     void setup() {
@@ -22,7 +22,10 @@ public class VisualDisplayer {
     }
 
     void render() {
-        sk.background(0);
+//        sk.background(0);
+        sk.fill(0, 50);
+        sk.noStroke();
+        sk.rect(0, 0, sk.width, sk.height);
         ground.render();
     }
 }

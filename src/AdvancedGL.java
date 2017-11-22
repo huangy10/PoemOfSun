@@ -56,6 +56,8 @@ public class AdvancedGL extends PApplet {
             offset += 0.006f;
         }
 
+        println(radius);
+
         ringBuffer.rewind();
 
         pgl = (PJOGL) beginPGL();
@@ -72,15 +74,13 @@ public class AdvancedGL extends PApplet {
         shader.unbind();
 
         endPGL();
-
-        println(partNum);
     }
 
     @Override
     public void draw() {
         background(255);
         translate(width / 2, height / 2);
-        rotateY(t);
+//        rotateY(t);
 
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL2ES2();

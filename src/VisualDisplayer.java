@@ -30,8 +30,8 @@ public class VisualDisplayer {
         sk.fill(0, 50);
         sk.noStroke();
         sk.rect(0, 0, sk.width, sk.height);
-        ground.render();
+//        ground.render();
 
-//        fireFlare.render();
+        fireFlare.render();
     }
 }

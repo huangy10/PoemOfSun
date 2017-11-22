@@ -15,6 +15,8 @@ public class FireFlare {
         pGraphics.beginDraw();
         pGraphics.background(0);
         pGraphics.endDraw();
+
+        sk.hint(PConstants.DISABLE_OPTIMIZED_STROKE);
     }
 
     public void setCenter(PVector center) {
@@ -32,12 +34,14 @@ public class FireFlare {
 
     void render() {
         if (center == null) return;
-        int count = 0;
         int     nPoints = 0;
         float   s = 1;
         float   xOffset = 0;
         float   yOffset = 0;
         float   offsetInc = 0.006f;
+        int     layers = 0;
+        float   preS = 0;
+
         pGraphics.beginDraw();
         pGraphics.blendMode(PConstants.ADD);
         pGraphics.noFill();
@@ -54,20 +58,22 @@ public class FireFlare {
                 PVector p = PVector.fromAngle((float) i / nPoints * PApplet.PI * 2);
                 p.mult(sk.noise(xOffset + p.x, yOffset + p.y, sk.t) * s);
                 pGraphics.vertex(p.x, p.y);
-                count += 1;
             }
             pGraphics.endShape(PConstants.CLOSE);
 
             xOffset += offsetInc;
             yOffset += offsetInc;
 
+            preS = s;
             s *= 1.005f;
+//            if (s - preS < 1) s = preS += 1;
+            layers += 1;
         }
+
+//        PApplet.println(layers);
         pGraphics.popMatrix();
         pGraphics.endDraw();
         sk.image(pGraphics, 0, 0);
-        PApplet.println(count);
         if (ringSize < MAX_RING_SIZE) ringSize += 2;
     }
-
 }

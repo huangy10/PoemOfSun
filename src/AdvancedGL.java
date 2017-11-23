@@ -23,6 +23,8 @@ public class AdvancedGL extends PApplet {
 
     IntBuffer vbos;
 
+    PGraphics pGraphics;
+
     @Override
     public void settings() {
         // enable P3D to use OpenGL features
@@ -31,7 +33,8 @@ public class AdvancedGL extends PApplet {
 
     @Override
     public void setup() {
-        shader = loadShader("frag.glsl", "vert.glsl");
+        pGraphics = createGraphics(width, height, P3D);
+        shader = pGraphics.loadShader("frag.glsl", "vert.glsl");
         // get the total number of particles needed;
         partNumbers = calculateParticleNumbers();
         partNum = 0;
@@ -58,7 +61,8 @@ public class AdvancedGL extends PApplet {
 
         ringBuffer.rewind();
 
-        pgl = (PJOGL) beginPGL();
+        pGraphics.beginDraw();
+        pgl = (PJOGL) pGraphics.beginPGL();
         gl = pgl.gl.getGL2ES2();
 
         // generate vbos
@@ -71,16 +75,21 @@ public class AdvancedGL extends PApplet {
         ringLoc = gl.glGetAttribLocation(shader.glProgram, "ring");
         shader.unbind();
 
-        endPGL();
+        pGraphics.endPGL();
+//        endPGL();
+        pGraphics.endDraw();
     }
 
     @Override
     public void draw() {
-        background(0);
-        translate(width / 2, height / 2);
 
-        pgl = (PJOGL) beginPGL();
+
+        pGraphics.beginDraw();
+        pgl = (PJOGL) pGraphics.beginPGL();
         gl = pgl.gl.getGL2ES2();
+
+        pGraphics.background(0);
+        pGraphics.translate(width / 2, height / 2);
 
         shader.bind();
         shader.set("time", t);
@@ -104,8 +113,10 @@ public class AdvancedGL extends PApplet {
         gl.glDisableVertexAttribArray(ringLoc);
 
         shader.unbind();
-        endPGL();
+        pGraphics.endPGL();
+        pGraphics.endDraw();
 
+        image(pGraphics, 0, 0);
         surface.setTitle("Framerate: " + frameRate);
         t += 0.01;
     }

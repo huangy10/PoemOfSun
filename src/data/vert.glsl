@@ -95,7 +95,7 @@ void main() {
     pos.y = sin(angle);
     
     noiseFactor = vec3(offset + pos.x, offset + pos.y, 0) * 2;
-    noiseFactor.z = time / 4;
+    noiseFactor.z = time / 2;
     
     l = (cnoise(noiseFactor) + 1) / 2 * radius;
     pos *= l;

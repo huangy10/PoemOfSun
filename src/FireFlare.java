@@ -54,7 +54,7 @@ public class FireFlare {
             // limit the max number of points for performance
             nPoints = PApplet.min(nPoints, 500);
             pGraphics.beginShape();
-            for (int i = 0; i < nPoints; i += 1) {
+            for (int i = 0; i < nPoints && layers == 1000; i += 1) {
                 PVector p = PVector.fromAngle((float) i / nPoints * PApplet.PI * 2);
                 p.mult(sk.noise(xOffset + p.x, yOffset + p.y, sk.t) * s);
                 pGraphics.vertex(p.x, p.y);

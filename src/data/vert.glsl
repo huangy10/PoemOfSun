@@ -91,7 +91,7 @@ void main() {
     
     pos.x = cos(angle);
     pos.y = sin(angle);
-    l = cnoise(vec3(offset + pos.x, offset + pos.y, time)) * radius * 4;
+    l = cnoise(vec3(offset + pos.x, offset + pos.y, time / 10)) * radius;
     pos *= l;
     
     pos.z = 0;

@@ -16,6 +16,7 @@ public class AdvancedGL extends PApplet {
     int ringVboId;
     int ringLoc;
     int partNum;
+    ArrayList<Integer> partNumbers;
 
     PJOGL pgl;
     GL2ES2 gl;
@@ -32,17 +33,16 @@ public class AdvancedGL extends PApplet {
     public void setup() {
         shader = loadShader("frag.glsl", "vert.glsl");
         // get the total number of particles needed;
-        ArrayList<Integer> partNumbers = calculateParticleNumbers();
+        partNumbers = calculateParticleNumbers();
         partNum = 0;
         for (int x: partNumbers) {
             partNum += x;
         }
         // generate buffers
         ringBuffer = allocateDirectFloatBuffer(partNum * 4);
+
         // fill ring buffer data
-        float angle, radius, offset, idx;
-        offset = 0;
-        radius = 1;
+        float angle = 0, radius = 1, offset = 0, idx = 0;
         for (int i : partNumbers) {
             for (int j = 0; j < i; j += 1) {
                 idx = j;
@@ -55,8 +55,6 @@ public class AdvancedGL extends PApplet {
             radius *= 1.005f;
             offset += 0.006f;
         }
-
-        println(radius);
 
         ringBuffer.rewind();
 
@@ -78,9 +76,8 @@ public class AdvancedGL extends PApplet {
 
     @Override
     public void draw() {
-        background(255);
+        background(0);
         translate(width / 2, height / 2);
-//        rotateY(t);
 
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL2ES2();
@@ -91,9 +88,15 @@ public class AdvancedGL extends PApplet {
         gl.glEnableVertexAttribArray(ringLoc);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, ringVboId);
-        gl.glBufferData(GL.GL_ARRAY_BUFFER, ringBuffer.capacity(), ringBuffer, GL.GL_DYNAMIC_DRAW);
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, partNum * 4 * Float.BYTES, ringBuffer, GL.GL_DYNAMIC_DRAW);
         gl.glVertexAttribPointer(ringLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
-        gl.glDrawArrays(GL.GL_POINTS, 0, partNum);
+
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
+        int x = 0;
+        for (int i: partNumbers) {
+            gl.glDrawArrays(GL.GL_POINTS, x, i);
+            x += i;
+        }
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
         gl.glDisableVertexAttribArray(ringLoc);
@@ -105,7 +108,7 @@ public class AdvancedGL extends PApplet {
         t += 0.01;
     }
 
-    ArrayList<Integer> calculateParticleNumbers() {
+    private ArrayList<Integer> calculateParticleNumbers() {
         ArrayList<Integer> res = new ArrayList<>();
         float max_ring_size = 200;
         float s = 1;

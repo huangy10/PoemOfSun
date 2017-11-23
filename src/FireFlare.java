@@ -27,6 +27,11 @@ public class FireFlare {
 
     IntBuffer vbos;
 
+    // bind status
+    boolean isActivate = false;
+    float   drawingRingLayer = 0;
+    BodyTarget t;
+
     FireFlare(Sketch sk) {
         this.sk = sk;
         pGraphics = sk.createGraphics(sk.width, sk.height, PApplet.P3D);
@@ -90,6 +95,7 @@ public class FireFlare {
     }
 
     void render() {
+        if (!isActivate) return;
         pGraphics.beginDraw();
         pgl = (PJOGL) pGraphics.beginPGL();
         gl = pgl.gl.getGL2ES2();
@@ -108,9 +114,12 @@ public class FireFlare {
 
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
         int x = 0;
+        int j = 0;
         for (int i: partNumbers) {
+            if (j > drawingRingLayer) break;
             gl.glDrawArrays(GL.GL_POINTS, x, i);
             x += i;
+            j += 1;
         }
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
@@ -121,6 +130,21 @@ public class FireFlare {
         pGraphics.endDraw();
 
         sk.image(pGraphics, 0, 0);
+
+
+        if (drawingRingLayer < partNumbers.size()) {
+            if (drawingRingLayer < 600)
+                drawingRingLayer += 10;
+            else
+                drawingRingLayer += 2;
+        }
+    }
+
+    void deactivate() {
+        isActivate = true;
+        t.fireFlare = null;
+        t = null;
+        drawingRingLayer = 0;
     }
 
     private ArrayList<Integer> calculateParticleNumbers() {

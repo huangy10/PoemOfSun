@@ -26,6 +26,7 @@ public class Ground {
 
         for (BodyTarget t : sk.bodyDetector.getTargets()) {
             PVector p = t.getCurrentScreenLocation();
+//            PApplet.println(t.isStatic());
             for (int i = 0; i < cellNbW; i += 1)
                 for (int j = 0; j < cellNbH; j += 1) {
                     node = nodes[i][j];

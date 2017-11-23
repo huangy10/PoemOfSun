@@ -20,6 +20,8 @@ public class BodyTarget {
     private int                 historyCapacity = 30;
     private int                 staticThreshold = 40;
 
+    FireFlare       fireFlare;
+
     BodyTarget(PVector initialLoc, PApplet sk) {
         this.birthFrame = sk.frameCount;
         this.lastUpdateFrame = sk.frameCount;

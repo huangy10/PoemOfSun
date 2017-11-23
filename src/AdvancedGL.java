@@ -23,9 +23,6 @@ public class AdvancedGL extends PApplet {
 
     IntBuffer vbos;
 
-    //
-    float radiusStep = 0.005f;
-
     @Override
     public void settings() {
         // enable P3D to use OpenGL features

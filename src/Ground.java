@@ -45,8 +45,10 @@ public class Ground {
                 FireFlare fireFlare = getFreeFireFlare();
                 if (fireFlare != null) {
                     fireFlare.bindToBodyTraget(t);
-                    fireFlare.makeActivate();
                     fireFlare.setCenter(t.getCurrentScreenLocation());
+                    fireFlare.makeActivate();
+                } else {
+                    PApplet.println("fail to get free fireflare");
                 }
             } else if (!isStatic && t.fireFlare != null) {
                 t.fireFlare.deactivate();
@@ -97,7 +99,7 @@ public class Ground {
 
     FireFlare getFreeFireFlare() {
         for (FireFlare fireFlare: fireFlares) {
-            if (!fireFlare.isActivate) {
+            if (fireFlare.isFree()) {
                 PApplet.println("get free fireflare: " + fireFlare.id);
                 return fireFlare;
             }

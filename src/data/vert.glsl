@@ -2,6 +2,7 @@
 
 uniform mat4 transform;
 uniform float time;
+uniform float ringTrans;
 
 //attribute vec4 position;
 //in vec4 color;
@@ -104,10 +105,7 @@ void main() {
     pos.w = 1;
     
     gl_Position = transform * pos;
-    if (l > 0)
-        vertColor = vec4(1.0, 0.25, 0.031, 0.5);
-    else
-        vertColor = vec4(0, 1, 0, 1);
+    vertColor = vec4(1.0, 0.25, 0.031, 0.5 * ringTrans);
 }
 
 

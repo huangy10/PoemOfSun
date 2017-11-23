@@ -22,7 +22,7 @@ public class Sketch extends PApplet {
 
         visualDisplayer = new VisualDisplayer(this);
         visualDisplayer.setup();
-        frameRate(30);
+        frameRate(60);
     }
 
     @Override

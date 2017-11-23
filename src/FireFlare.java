@@ -14,6 +14,7 @@ public class FireFlare {
     float max_ring_size = 200;
     PGraphics pGraphics;
     private PVector center;
+    float   ringTransparency = 0;
     // variales adopted from AdvancedGL class
     PShader shader;
     FloatBuffer   ringBuffer;
@@ -87,17 +88,22 @@ public class FireFlare {
     }
 
     void setCenter(float x, float y) {
-        if (center == null)
-            center = new PVector(x, y);
+        if (this.center == null)
+            this.center = new PVector(x, y);
         else {
-            center.x = x;
-            center.y = y;
+            this.center.x = x;
+            this.center.y = y;
         }
     }
 
     void render() {
-        if (!isActivate) {
+        if (!isActivate && ringTransparency < 0.01f) {
+            drawingRingLayer = 0;
+//            PApplet.println("disappear");
             return;
+        } else if (!isActivate) {
+//            PApplet.println("fade");
+            ringTransparency -= 0.01f;
         }
         pGraphics.beginDraw();
         pgl = (PJOGL) pGraphics.beginPGL();
@@ -108,6 +114,7 @@ public class FireFlare {
 
         shader.bind();
         shader.set("time", sk.t);
+        shader.set("ringTrans", ringTransparency);
 
         gl.glEnableVertexAttribArray(ringLoc);
 
@@ -147,13 +154,19 @@ public class FireFlare {
         isActivate = false;
         t.fireFlare = null;
         t = null;
-        drawingRingLayer = 0;
+//        drawingRingLayer = 0;
 
         PApplet.println("Deactivated: " + id);
     }
 
     void makeActivate() {
         isActivate = true;
+        ringTransparency = 1;
+        drawingRingLayer = 0;
+    }
+
+    boolean isFree() {
+        return !isActivate && ringTransparency < 0.01f;
     }
 
     void bindToBodyTraget(BodyTarget bodyTarget) {

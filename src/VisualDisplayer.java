@@ -10,7 +10,7 @@ public class VisualDisplayer {
     VisualDisplayer(Sketch sk) {
         this.sk = sk;
         ground = new Ground(sk, 40);
-        fireFlare = new FireFlare(sk);
+//        fireFlare = new FireFlare(sk);
     }
 
     void setup() {
@@ -18,7 +18,7 @@ public class VisualDisplayer {
         sk.stroke(255, 0, 0);
         sk.fill(0);
 
-        fireFlare.setCenter(sk.width / 2, sk.height / 2);
+//        fireFlare.setCenter(sk.width / 2, sk.height / 2);
     }
 
     void update() {
@@ -30,8 +30,8 @@ public class VisualDisplayer {
         sk.fill(0, 50);
         sk.noStroke();
         sk.rect(0, 0, sk.width, sk.height);
-//        ground.render();
+        ground.render();
 
-        fireFlare.render();
+//        fireFlare.render();
     }
 }

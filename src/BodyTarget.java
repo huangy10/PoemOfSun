@@ -51,8 +51,9 @@ public class BodyTarget {
 
     private void recordHistoryLocation(PVector oldLoc) {
         if (historyLoc.size() >= historyCapacity) {
-            historyLoc.remove(historyLoc.size() - 1);
+            historyLoc.remove(0);
         }
+
         historyLoc.add(oldLoc);
     }
 

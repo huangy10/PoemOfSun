@@ -108,11 +108,9 @@ public class FireFlare {
 
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
         int x = 0;
-        int j = 0;
         for (int i: partNumbers) {
             gl.glDrawArrays(GL.GL_POINTS, x, i);
             x += i;
-            j += 1;
         }
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);

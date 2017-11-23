@@ -83,22 +83,31 @@ float cnoise(vec3 P){
 
 void main() {
     vec4 pos;
+    vec3 noiseFactor;
     float angle = ring.x;
     float radius = ring.y;
     float offset = ring.z;
     float idx = ring.w;
     float l;
     
+    
     pos.x = cos(angle);
     pos.y = sin(angle);
-    l = cnoise(vec3(offset + pos.x, offset + pos.y, time / 10)) * radius;
+    
+    noiseFactor = vec3(offset + pos.x, offset + pos.y, 0) * 2;
+    noiseFactor.z = time / 4;
+    
+    l = (cnoise(noiseFactor) + 1) / 2 * radius;
     pos *= l;
     
     pos.z = 0;
     pos.w = 1;
     
     gl_Position = transform * pos;
-    vertColor = vec4(1.0, 0.25, 0.031, 0.5);
+    if (l > 0)
+        vertColor = vec4(1.0, 0.25, 0.031, 0.5);
+    else
+        vertColor = vec4(0, 1, 0, 1);
 }
 
 

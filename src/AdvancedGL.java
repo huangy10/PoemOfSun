@@ -23,6 +23,9 @@ public class AdvancedGL extends PApplet {
 
     IntBuffer vbos;
 
+    //
+    float radiusStep = 0.005f;
+
     @Override
     public void settings() {
         // enable P3D to use OpenGL features
@@ -93,9 +96,11 @@ public class AdvancedGL extends PApplet {
 
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
         int x = 0;
+        int j = 0;
         for (int i: partNumbers) {
             gl.glDrawArrays(GL.GL_POINTS, x, i);
             x += i;
+            j += 1;
         }
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
@@ -129,8 +134,4 @@ public class AdvancedGL extends PApplet {
     FloatBuffer allocateDirectFloatBuffer(int n) {
         return ByteBuffer.allocateDirect(n * Float.BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
     }
-
-//    IntBuffer allocateDirectIntBuffer(int n) {
-//        return ByteBuffer.allocateDirect(n * Integer.BYTES).order(ByteOrder.nativeOrder()).asIntBuffer();
-//    }
 }

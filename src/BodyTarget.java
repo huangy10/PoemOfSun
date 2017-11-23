@@ -59,6 +59,7 @@ public class BodyTarget {
         historyLoc.add(oldLoc);
     }
 
+
     PVector getCurrentScreenLocation() {
         return Calibrator.kinectToScreen(loc);
     }
@@ -89,4 +90,5 @@ public class BodyTarget {
 
         return maxX - minX < staticThreshold || maxY - minY < staticThreshold;
     }
+
 }

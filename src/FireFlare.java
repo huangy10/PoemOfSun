@@ -31,6 +31,7 @@ public class FireFlare {
     boolean isActivate = false;
     float   drawingRingLayer = 0;
     BodyTarget t;
+    int id;
 
     FireFlare(Sketch sk) {
         this.sk = sk;
@@ -81,11 +82,11 @@ public class FireFlare {
         pGraphics.endDraw();
     }
 
-    public void setCenter(PVector center) {
-        this.center = center;
+    void setCenter(PVector center) {
+        setCenter(center.x, center.y);
     }
 
-    public void setCenter(float x, float y) {
+    void setCenter(float x, float y) {
         if (center == null)
             center = new PVector(x, y);
         else {
@@ -95,13 +96,15 @@ public class FireFlare {
     }
 
     void render() {
-        if (!isActivate) return;
+        if (!isActivate) {
+            return;
+        }
         pGraphics.beginDraw();
         pgl = (PJOGL) pGraphics.beginPGL();
         gl = pgl.gl.getGL2ES2();
 
-        pGraphics.background(0);
-        pGraphics.translate(pGraphics.width / 2, pGraphics.height / 2);
+        pGraphics.clear();
+        pGraphics.translate(center.x, center.y);
 
         shader.bind();
         shader.set("time", sk.t);
@@ -141,10 +144,21 @@ public class FireFlare {
     }
 
     void deactivate() {
-        isActivate = true;
+        isActivate = false;
         t.fireFlare = null;
         t = null;
         drawingRingLayer = 0;
+
+        PApplet.println("Deactivated: " + id);
+    }
+
+    void makeActivate() {
+        isActivate = true;
+    }
+
+    void bindToBodyTraget(BodyTarget bodyTarget) {
+        t = bodyTarget;
+        bodyTarget.fireFlare = this;
     }
 
     private ArrayList<Integer> calculateParticleNumbers() {

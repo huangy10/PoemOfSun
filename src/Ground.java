@@ -6,6 +6,9 @@ public class Ground {
     int     cellNbW, cellNbH;
     GroundNode[][]  nodes;
 
+    int     fireFlareCacheSize = 3;
+    FireFlare[] fireFlares;
+
     Ground(Sketch sk, int size) {
         this.sk = sk;
         this.cellSize = size;
@@ -16,6 +19,17 @@ public class Ground {
             for (int j = 0; j < cellNbH; j += 1) {
                 nodes[i][j] = new GroundNode(new PVector(i * size, j * size), sk);
             }
+
+        fireFlares = new FireFlare[fireFlareCacheSize];
+        for (FireFlare fireFlare: fireFlares) {
+            fireFlare = new FireFlare(sk);
+            fireFlare.isActivate = false;
+        }
+        for (int i = 0; i < fireFlares.length; i += 1) {
+            fireFlares[i] = new FireFlare(sk);
+            fireFlares[i].isActivate = false;
+            fireFlares[i].id = i;
+        }
     }
 
     void update() {
@@ -26,7 +40,17 @@ public class Ground {
 
         for (BodyTarget t : sk.bodyDetector.getTargets()) {
             PVector p = t.getCurrentScreenLocation();
-//            PApplet.println(t.isStatic());
+            boolean isStatic = t.isStatic();
+            if (isStatic && t.fireFlare == null) {
+                FireFlare fireFlare = getFreeFireFlare();
+                if (fireFlare != null) {
+                    fireFlare.bindToBodyTraget(t);
+                    fireFlare.makeActivate();
+                    fireFlare.setCenter(t.getCurrentScreenLocation());
+                }
+            } else if (!isStatic && t.fireFlare != null) {
+                t.fireFlare.deactivate();
+            }
             for (int i = 0; i < cellNbW; i += 1)
                 for (int j = 0; j < cellNbH; j += 1) {
                     node = nodes[i][j];
@@ -66,5 +90,18 @@ public class Ground {
                     sk.line(nodes[i][j].loc.x, nodes[i][j].loc.y, nodes[i][j - 1].loc.x, nodes[i][j - 1].loc.y);
             }
 
+        for (FireFlare fireFlare: fireFlares) {
+            fireFlare.render();
+        }
+    }
+
+    FireFlare getFreeFireFlare() {
+        for (FireFlare fireFlare: fireFlares) {
+            if (!fireFlare.isActivate) {
+                PApplet.println("get free fireflare: " + fireFlare.id);
+                return fireFlare;
+            }
+        }
+        return null;
     }
 }

@@ -20,6 +20,8 @@ public class BodyDetector {
 
     // debug options
     private boolean enableDebug = false;
+    private boolean enableCalibration = false;
+    float groundDistance = 0;
 
     BodyDetector(PApplet sk) {
         this.sk = sk;
@@ -53,13 +55,24 @@ public class BodyDetector {
             debugUpdate();
             return;
         }
+        // extract raw depth data from kinect, which ranges from 0 to 2047
+        // we should map it to color value range (0 - 255)
         int[] rawDepthData = kinect.getRawDepth();
+        groundDistance = 0;
         for (int i = 0; i < rawDepthData.length; i += 1) {
             depthImage.pixels[i] = sk.lerpColor(sk.color(255), sk.color(0),
                     rawDepthData[i] / 2048f);
+            if (enableCalibration && rawDepthData[i] > groundDistance) {
+                groundDistance = rawDepthData[i];
+            }
         }
         depthImage.updatePixels();
         blobDetection.computeBlobs(depthImage.pixels);
+        if (enableCalibration) {
+            if (sk.frameCount % 10 == 0) {
+                PApplet.println("Maximal depth value: " + groundDistance);
+            }
+        }
         processBlobs();
     }
 
@@ -68,8 +81,6 @@ public class BodyDetector {
         if (targets.isEmpty()) {
             t = new BodyTarget(new PVector(sk.mouseX, sk.mouseY), sk);
             targets.add(t);
-//            targets.add(new BodyTarget(new PVector(200, 200), sk));
-//            targets.add(new BodyTarget(new PVector(600, 600), sk));
         } else {
             t = targets.get(0);
         }
@@ -137,5 +148,9 @@ public class BodyDetector {
     void setEnableDebug() {
         enableDebug = true;
         PApplet.println("Body detector enable debug mode");
+    }
+
+    void setEnableCalibration() {
+        enableCalibration = true;
     }
 }

@@ -68,7 +68,6 @@ public class FireFlare {
         pGraphics.beginDraw();
         pgl = (PJOGL) pGraphics.beginPGL();
         gl = pgl.gl.getGL2ES2();
-
         // generate vbos
         vbos = IntBuffer.allocate(1);
         gl.glGenBuffers(1, vbos);

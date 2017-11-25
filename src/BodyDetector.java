@@ -35,7 +35,7 @@ public class BodyDetector {
     private void initKinect() {
         kinect = new Kinect(sk);
         kinect.initDepth();
-        kinect.enableMirror(true);
+        kinect.enableMirror(false);
     }
 
     private void initBlobDetection() {
@@ -55,13 +55,17 @@ public class BodyDetector {
             debugUpdate();
             return;
         }
+//        PApplet.println("read");
         // extract raw depth data from kinect, which ranges from 0 to 2047
         // we should map it to color value range (0 - 255)
         int[] rawDepthData = kinect.getRawDepth();
         groundDistance = 0;
         for (int i = 0; i < rawDepthData.length; i += 1) {
-            depthImage.pixels[i] = sk.lerpColor(sk.color(255), sk.color(0),
-                    rawDepthData[i] / 2048f);
+            if(rawDepthData[i] > 930) depthImage.pixels[i] = sk.color(0);
+            else {
+                depthImage.pixels[i] = sk.lerpColor(sk.color(255), sk.color(0),
+                        rawDepthData[i] / 2048f);
+            }
             if (enableCalibration && rawDepthData[i] > groundDistance) {
                 groundDistance = rawDepthData[i];
             }
@@ -107,6 +111,7 @@ public class BodyDetector {
         for (int i = 0; i < blobDetection.getBlobNb(); i += 1) {
             b = blobDetection.getBlob(i);
             if (b.w * b.h < MIN_BLOB_AREA_NORMALIZED) continue;
+//            PApplet.println("test");
             boolean accepted = false;
             for (BodyTarget t : targets) {
                 if (t.updateLocation(b.x * kinect.width, b.y * kinect.height)) {

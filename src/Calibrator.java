@@ -5,11 +5,23 @@ public class Calibrator extends PApplet {
     final static float offsetY = 0;
     final static float scaleW = 1;
     final static float scaleH = 1;
+    static float screenWidth;
+    static float screenHeight;
 
     private BodyDetector bodyDetector;
 
+    static void initWithSketch(PApplet sk) {
+        screenWidth = sk.width;
+        screenHeight = sk.height;
+    }
+
     static PVector kinectToScreen(PVector loc) {
-        return loc;
+        float kinectW = 640;
+        float kinectH = 480;
+        float y = kinectW - loc.x;
+        float x = loc.y;
+
+        return new PVector(x, y);
     }
 
     public void settings() {
@@ -26,6 +38,9 @@ public class Calibrator extends PApplet {
     @Override
     public void draw() {
         bodyDetector.update();
+        bodyDetector.showDepthImage = true;
+        bodyDetector.showBlob = true;
+        bodyDetector.setBlobDetectionThreshold(0.5f);
         bodyDetector.render();
     }
 }

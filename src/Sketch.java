@@ -11,8 +11,8 @@ public class Sketch extends PApplet {
 
     @Override
     public void settings() {
-        size(800, 800, P3D);
-        fullScreen(SPAN);
+//        size(800, 800, P3D);
+        fullScreen(P3D, SPAN);
     }
 
     @Override

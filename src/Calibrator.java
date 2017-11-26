@@ -21,7 +21,7 @@ public class Calibrator extends PApplet {
         float y = kinectW - loc.x;
         float x = loc.y;
 
-        return new PVector(x, y);
+        return new PVector(x * 3.5f, y * 3.5f);
     }
 
     public void settings() {

@@ -33,6 +33,7 @@ public class FireFlare {
     float   drawingRingLayer = 0;
     BodyTarget t;
     int id;
+    float randomRotate;
 
     FireFlare(Sketch sk) {
         this.sk = sk;
@@ -80,6 +81,8 @@ public class FireFlare {
 
         pGraphics.endPGL();
         pGraphics.endDraw();
+        //
+        randomRotate = sk.random(PConstants.TWO_PI);
     }
 
     void setCenter(PVector center) {
@@ -110,10 +113,13 @@ public class FireFlare {
 
         pGraphics.clear();
         pGraphics.translate(center.x, center.y);
+//        pGraphics.rotateX(randomRotate);
+        pGraphics.scale(1.5f);
 
         shader.bind();
         shader.set("time", sk.t);
         shader.set("ringTrans", ringTransparency);
+        shader.set("randomRotate", randomRotate);
 
         gl.glEnableVertexAttribArray(ringLoc);
 

@@ -135,8 +135,11 @@ public class BodyDetector {
     private void weepOutOldTargets() {
         ArrayList<BodyTarget> remove = new ArrayList<>();
         for (BodyTarget t : targets)
-            if (!t.isAlive())
+            if (!t.isAlive()) {
+                if (t.fireFlare != null)
+                    t.fireFlare.deactivate();
                 remove.add(t);
+            }
         if (remove.size() != 0) PApplet.println("Remove: " + remove.size());
         targets.removeAll(remove);
     }

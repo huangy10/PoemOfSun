@@ -3,6 +3,7 @@
 uniform mat4 transform;
 uniform float time;
 uniform float ringTrans;
+uniform float randomRotate;
 
 //attribute vec4 position;
 //in vec4 color;
@@ -85,7 +86,7 @@ float cnoise(vec3 P){
 void main() {
     vec4 pos;
     vec3 noiseFactor;
-    float angle = ring.x;
+    float angle = ring.x - randomRotate;
     float radius = ring.y;
     float offset = ring.z;
     float idx = ring.w;

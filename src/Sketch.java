@@ -28,7 +28,7 @@ public class Sketch extends PApplet {
         bodyDetector.disableRendering();
 //        bodyDetector.showBlob = true;
         bodyDetector.setBlobDetectionThreshold(0.5f);
-        bodyDetector.setEnableDebug();
+//        bodyDetector.setEnableDebug();
 
         visualDisplayer = new VisualDisplayer(this);
         visualDisplayer.setup();
@@ -50,6 +50,12 @@ public class Sketch extends PApplet {
         surface.setTitle("Framerate: " + frameRate);
 
         t += 0.01f;
+    }
+
+    @Override
+    public void exit() {
+        player.close();
+        super.exit();
     }
 
     @Override

@@ -12,11 +12,12 @@ public class Sketch extends PApplet {
     @Override
     public void settings() {
         size(800, 800, P3D);
+        fullScreen(SPAN);
     }
 
     @Override
     public void setup() {
-        frame.setResizable(true);
+//        frame.setResizable(true);
         bodyDetector = new BodyDetector(this);
         bodyDetector.disableRendering();
 //        bodyDetector.showBlob = true;

@@ -7,6 +7,7 @@ public class Calibrator extends PApplet {
     final static float scaleH = 1;
     static float screenWidth;
     static float screenHeight;
+    static boolean isEnabled = true;
 
     private BodyDetector bodyDetector;
 
@@ -15,13 +16,25 @@ public class Calibrator extends PApplet {
         screenHeight = sk.height;
     }
 
-    static PVector kinectToScreen(PVector loc) {
+    private static PVector __kinectToScreen(PVector loc) {
         float kinectW = 640;
         float kinectH = 480;
         float y = kinectW - loc.x;
         float x = loc.y;
 
         return new PVector(x * 3.5f, y * 3.5f);
+    }
+
+    static PVector kinectToScreen(PVector loc) {
+        if (isEnabled) {
+            return __kinectToScreen(loc);
+        } else {
+            return loc.copy();
+        }
+    }
+
+    static void setEnable(boolean newVal) {
+        isEnabled = newVal;
     }
 
     public void settings() {

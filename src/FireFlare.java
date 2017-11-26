@@ -124,7 +124,7 @@ public class FireFlare {
         gl.glEnableVertexAttribArray(ringLoc);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, ringVboId);
-        gl.glBufferData(GL.GL_ARRAY_BUFFER, partNum * 4 * Float.BYTES, ringBuffer, GL.GL_DYNAMIC_DRAW);
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, partNum * 4 * Float.BYTES, ringBuffer, GL.GL_STATIC_DRAW);
         gl.glVertexAttribPointer(ringLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
 
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
